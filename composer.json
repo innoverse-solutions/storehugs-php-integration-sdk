@@ -1,0 +1,52 @@
+{
+    "name": "storehugs/integration",
+    "description": "PHP client for the Store Hugs Integration API: the Storefront API and the Admin API.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "storehugs",
+        "ecommerce",
+        "headless",
+        "api-client",
+        "sdk"
+    ],
+    "homepage": "https://developers.storehugs.com",
+    "support": {
+        "issues": "https://github.com/innoverse-solutions/storehugs-php-integration-sdk/issues",
+        "source": "https://github.com/innoverse-solutions/storehugs-php-integration-sdk",
+        "docs": "https://developers.storehugs.com"
+    },
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.8 || ^8.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.18",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.5",
+        "symfony/yaml": "^7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "StoreHugs\\Integration\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "StoreHugs\\Integration\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "format": "pint",
+        "format:check": "pint --test",
+        "types:check": "phpstan analyse --memory-limit=1G",
+        "test": "phpunit",
+        "generate": "@php bin/generate-schemas.php"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

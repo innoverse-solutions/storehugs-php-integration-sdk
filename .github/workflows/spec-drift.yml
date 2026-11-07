@@ -1,0 +1,25 @@
+name: Spec drift
+
+# Regenerates the types from the published OpenAPI file and fails when they
+# changed: the API moved on and the client needs a release.
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+      - uses: ramsey/composer-install@v3
+      - run: composer generate
+      - name: Fail when the generated types changed
+        run: git diff --exit-code src/Schemas.php

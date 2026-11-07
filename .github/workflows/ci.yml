@@ -1,0 +1,45 @@
+name: CI
+
+# Checks every push to master and every pull request. Packagist picks up
+# releases from version tags; nothing is built or published here.
+#
+# The highest dependencies install Guzzle 8; the lowest install Guzzle 7.8,
+# and one job keeps the newest Guzzle 7 that Laravel apps still run.
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.2', '8.3', '8.4', '8.5']
+        dependencies: ['highest']
+        composer-options: ['']
+        include:
+          - php: '8.2'
+            dependencies: 'lowest'
+            composer-options: ''
+          - php: '8.5'
+            dependencies: 'highest'
+            composer-options: '--with=guzzlehttp/guzzle:^7.8'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: ${{ matrix.dependencies }}
+          composer-options: ${{ matrix.composer-options }}
+      - run: composer show guzzlehttp/guzzle | grep versions
+      - run: composer validate --strict
+      - run: composer format:check
+      - run: composer types:check
+      - run: composer test
