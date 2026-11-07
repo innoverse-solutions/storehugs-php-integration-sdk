@@ -30,7 +30,7 @@ composer install
     ```
 
 4. Add a line to `CHANGELOG.md` under the next version.
-5. Open a pull request against `master`. CI runs the same checks on PHP 8.2 to 8.5, with Guzzle 7 and 8.
+5. Open a pull request against `master`. CI runs the tests and types on PHP 8.2 to 8.5, with Guzzle 7 and 8, and the format check on PHP 8.5.
 
 ## Generated types
 

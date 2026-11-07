@@ -4,7 +4,7 @@
 [![CI](https://github.com/innoverse-solutions/storehugs-php-integration-sdk/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/innoverse-solutions/storehugs-php-integration-sdk/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-A PHP client for the Store Hugs Integration API. It runs on PHP 8.2+ and sends requests with Guzzle 7.8+ or 8, or with any PSR-18 HTTP client you pass it.
+A PHP client for the Store Hugs Integration API. It runs on PHP 8.2+ and sends requests with Guzzle 7.15.2+ or 8.0.3+, or with any PSR-18 HTTP client you pass it.
 
 - **Storefront API:** the catalog, carts and checkout links, and signed-in shoppers on the shop's host. On a server, use a secret key (`sk_live_…`) and pass the shopper's IP.
 - **Admin API:** the merchant's own systems and connected apps. Use an Admin key (`sa_live_…`).
@@ -17,7 +17,7 @@ The full reference is at https://developers.storehugs.com (`/openapi.yaml`). Rep
 composer require storehugs/integration
 ```
 
-Guzzle comes with it (7.8+ or 8, whichever your app already uses), so nothing else is needed. Laravel apps already have it.
+Guzzle comes with it (7.15.2+ or 8.0.3+, whichever your app already uses), so nothing else is needed. Laravel apps already have it. Earlier Guzzle releases have security advisories, and Composer refuses them by default.
 
 ## Storefront
 
@@ -79,7 +79,7 @@ $genuine = Webhooks::verifySignature(
 );
 ```
 
-This checks the HMAC and that the delivery is recent (5 minutes by default). Pass the raw body exactly as received. Skip any `Storehugs-Event-Id` you have already handled, because retries reuse it.
+This checks the HMAC and that the delivery is recent (5 minutes by default). An empty secret throws `InvalidArgumentException` instead of answering, so a missing setting can't let forged deliveries through. Pass the raw body exactly as received. Skip any `Storehugs-Event-Id` you have already handled, because retries reuse it.
 
 ## Behaviour
 
@@ -129,7 +129,7 @@ A weekly workflow regenerates the types from the published spec and fails when t
 
     Packagist reads the version from the tag through the repository's GitHub hook. No version goes in `composer.json`.
 
-CI on pushes and pull requests checks formatting, types and tests on PHP 8.2 to 8.5 with Guzzle 8, on PHP 8.5 with the newest Guzzle 7, and on PHP 8.2 with the lowest dependency versions (Guzzle 7.8).
+CI on pushes and pull requests checks types and tests on PHP 8.2 to 8.5 with Guzzle 8, on PHP 8.5 with the newest Guzzle 7, and on PHP 8.2 with the lowest dependency versions (Guzzle 7.15.2). Formatting is checked once, on PHP 8.5 with the newest Pint.
 
 ## Contributing and security
 

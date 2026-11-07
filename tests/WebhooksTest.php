@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StoreHugs\Integration\Tests;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use StoreHugs\Integration\Pkce;
 use StoreHugs\Integration\Webhooks;
@@ -34,6 +35,13 @@ final class WebhooksTest extends TestCase
             'whsec_old',
             now: self::T,
         ));
+    }
+
+    public function test_an_empty_secret_is_refused_rather_than_accepting_a_delivery_signed_with_an_empty_key(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        Webhooks::verifySignature(self::BODY, 't='.self::T.',v1='.self::sign(''), '', now: self::T);
     }
 
     public function test_a_pkce_pair_is_a_verifier_and_its_s256_challenge(): void

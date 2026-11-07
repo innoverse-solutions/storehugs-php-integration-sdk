@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace StoreHugs\Integration;
 
+use InvalidArgumentException;
+
 /**
  * Checks webhook deliveries. Every delivery carries the headers below.
  */
@@ -24,8 +26,14 @@ final class Webhooks
      * raw body exactly as received; re-encoded JSON won't match. Still skip a
      * `Storehugs-Event-Id` you already handled: retries reuse it.
      *
+     * An empty secret throws rather than answering: anyone can sign with an
+     * empty key, so a missing setting (`getenv()` returning false, coerced
+     * to "") must not let forged deliveries through.
+     *
      * @param  int  $toleranceSeconds  How far the signed time may be from now.
      * @param  int|null  $now  The current time in seconds, for tests.
+     *
+     * @throws InvalidArgumentException When the secret is empty.
      */
     public static function verifySignature(
         string $rawBody,
@@ -34,6 +42,10 @@ final class Webhooks
         int $toleranceSeconds = 300,
         ?int $now = null,
     ): bool {
+        if ($secret === '') {
+            throw new InvalidArgumentException('The webhook signing secret is empty; set it to the endpoint\'s whsec_… secret.');
+        }
+
         if ($signatureHeader === null || $signatureHeader === '') {
             return false;
         }
