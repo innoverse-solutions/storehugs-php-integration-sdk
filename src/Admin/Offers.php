@@ -16,7 +16,7 @@ use StoreHugs\Integration\Schemas;
  * @phpstan-import-type CursorPageLinks from Schemas
  * @phpstan-import-type CursorPageMeta from Schemas
  *
- * @phpstan-type OfferListQuery array{limit?: int, cursor?: string, updated_since?: string}
+ * @phpstan-type OfferListQuery array{limit?: int, cursor?: string, updatedSince?: string}
  */
 final class Offers extends Resource
 {

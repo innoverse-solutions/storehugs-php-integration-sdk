@@ -14,10 +14,10 @@ final class StorefrontClientTest extends TestCase
         $client = new FakeClient(FakeClient::json(['data' => [], 'links' => [], 'meta' => []]));
         $storefront = new StorefrontClient('acme.storehugs.com', 'pk_live_x', locale: 'ar', http: $client->options());
 
-        $storefront->products->list(['category' => [3, 4], 'in_stock' => true, 'per_page' => 20]);
+        $storefront->products->list(['taxonomy' => [3, 4], 'inStock' => true, 'perPage' => 20]);
 
         $this->assertSame(
-            'https://acme.storehugs.com/api/v1/products?category%5B%5D=3&category%5B%5D=4&in_stock=1&per_page=20',
+            'https://acme.storehugs.com/api/v1/products?taxonomy%5B%5D=3&taxonomy%5B%5D=4&inStock=1&perPage=20',
             (string) $client->request(0)->getUri(),
         );
         $this->assertSame('pk_live_x', $client->request(0)->getHeaderLine('X-Storehugs-Key'));
@@ -28,28 +28,28 @@ final class StorefrontClientTest extends TestCase
     public function test_a_cart_session_sends_its_token_and_a_secret_key_names_the_shopper(): void
     {
         $client = new FakeClient(
-            FakeClient::json(['data' => ['cart_token' => 't1']], 201),
-            FakeClient::json(['data' => ['cart_token' => 't1']]),
+            FakeClient::json(['data' => ['cartToken' => 't1']], 201),
+            FakeClient::json(['data' => ['cartToken' => 't1']]),
         );
         $storefront = new StorefrontClient('https://shop.example.com/', 'sk_live_x', shopperIp: '203.0.113.7', http: $client->options());
 
         $cart = $storefront->createCart();
-        $storefront->cart($cart['cart_token'])->addItem(12, 2);
+        $storefront->cart($cart['cartToken'])->addItem(12, 2);
 
         $this->assertSame('https://shop.example.com/api/v1/cart/items', (string) $client->request(1)->getUri());
         $this->assertSame('t1', $client->request(1)->getHeaderLine('X-Cart-Token'));
         $this->assertSame('203.0.113.7', $client->request(1)->getHeaderLine('X-Shopper-Ip'));
-        $this->assertSame(['product_id' => 12, 'quantity' => 2], $client->body(1));
+        $this->assertSame(['productId' => 12, 'quantity' => 2], $client->body(1));
     }
 
     public function test_checkout_without_options_sends_an_empty_object(): void
     {
-        $client = new FakeClient(FakeClient::json(['data' => ['checkout_url' => 'https://acme.storehugs.com/checkout/x']]));
+        $client = new FakeClient(FakeClient::json(['data' => ['checkoutUrl' => 'https://acme.storehugs.com/checkout/x']]));
         $storefront = new StorefrontClient('acme.storehugs.com', 'pk_live_x', http: $client->options());
 
         $link = $storefront->cart('t1')->checkout();
 
-        $this->assertSame('https://acme.storehugs.com/checkout/x', $link['checkout_url']);
+        $this->assertSame('https://acme.storehugs.com/checkout/x', $link['checkoutUrl']);
         $this->assertSame('{}', (string) $client->request(0)->getBody());
     }
 
@@ -102,5 +102,21 @@ final class StorefrontClientTest extends TestCase
         $storefront->products->get('mug/../x');
 
         $this->assertSame('https://acme.storehugs.com/api/v1/products/mug%2F..%2Fx', (string) $client->request(0)->getUri());
+    }
+
+    public function test_classifications_are_listed_and_a_classification_names_its_terms_by_slug(): void
+    {
+        $client = new FakeClient(
+            FakeClient::json(['data' => [['id' => 1, 'slug' => 'brand', 'name' => 'Brand', 'isTree' => false, 'isMultiple' => false]]]),
+            FakeClient::json(['data' => [['id' => 7, 'slug' => 'acme', 'name' => 'Acme', 'children' => []]]]),
+        );
+        $storefront = new StorefrontClient('acme.storehugs.com', 'pk_live_x', http: $client->options());
+
+        $brand = $storefront->taxonomies->list()[0];
+        $terms = $storefront->taxonomies->terms($brand['slug']);
+
+        $this->assertSame('https://acme.storehugs.com/api/v1/taxonomies', (string) $client->request(0)->getUri());
+        $this->assertSame('https://acme.storehugs.com/api/v1/taxonomies/brand/terms', (string) $client->request(1)->getUri());
+        $this->assertSame(7, $terms[0]['id']);
     }
 }

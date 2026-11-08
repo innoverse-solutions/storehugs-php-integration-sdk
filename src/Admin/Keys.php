@@ -18,7 +18,7 @@ use StoreHugs\Integration\Schemas;
  * @phpstan-import-type CursorPageLinks from Schemas
  * @phpstan-import-type CursorPageMeta from Schemas
  *
- * @phpstan-type KeyQuery array{limit?: int, cursor?: string, updated_since?: string}
+ * @phpstan-type KeyQuery array{limit?: int, cursor?: string, updatedSince?: string}
  */
 final class Keys extends Resource
 {

@@ -16,7 +16,7 @@ use StoreHugs\Integration\Schemas;
  * @phpstan-import-type CursorPageLinks from Schemas
  * @phpstan-import-type CursorPageMeta from Schemas
  *
- * @phpstan-type CouponListQuery array{limit?: int, cursor?: string, updated_since?: string, code?: string}
+ * @phpstan-type CouponListQuery array{limit?: int, cursor?: string, updatedSince?: string, code?: string}
  */
 final class Coupons extends Resource
 {

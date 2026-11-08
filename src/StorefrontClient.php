@@ -11,6 +11,7 @@ use StoreHugs\Integration\Storefront\CartSession;
 use StoreHugs\Integration\Storefront\CustomerAccount;
 use StoreHugs\Integration\Storefront\Products;
 use StoreHugs\Integration\Storefront\SignIn;
+use StoreHugs\Integration\Storefront\Taxonomies;
 
 /**
  * The Storefront API (`/api/v1` on the shop's host), for a merchant's own
@@ -18,13 +19,15 @@ use StoreHugs\Integration\Storefront\SignIn;
  * and signed-in shoppers.
  *
  * @phpstan-import-type StorefrontShop from Schemas
- * @phpstan-import-type CategoryType from Schemas
  * @phpstan-import-type StorefrontPage from Schemas
  * @phpstan-import-type Cart from Schemas
  */
 final class StorefrontClient
 {
     public readonly Products $products;
+
+    /** The shop's classifications and their terms. */
+    public readonly Taxonomies $taxonomies;
 
     /** The signed-in shopper's own data; needs an access token. */
     public readonly CustomerAccount $customer;
@@ -59,6 +62,7 @@ final class StorefrontClient
             'Accept-Language' => $locale,
         ], $http);
         $this->products = new Products($this->transport);
+        $this->taxonomies = new Taxonomies($this->transport);
         $this->customer = new CustomerAccount($this->transport);
         $this->signIn = new SignIn($this->transport, $this->origin);
     }
@@ -75,17 +79,6 @@ final class StorefrontClient
     }
 
     /**
-     * @return list<CategoryType>
-     *
-     * @throws IntegrationApiException
-     * @throws ClientExceptionInterface A network error that outlasted the retries.
-     */
-    public function categories(): array
-    {
-        return $this->transport->data('GET', '/categories');
-    }
-
-    /**
      * @param  'about'|'contact-us'|'terms-conditions'|'privacy-policy'  $page
      * @return StorefrontPage
      *
@@ -98,7 +91,7 @@ final class StorefrontClient
     }
 
     /**
-     * A new cart; keep its `cart_token` (with a shopper's token, the cart is theirs).
+     * A new cart; keep its `cartToken` (with a shopper's token, the cart is theirs).
      *
      * @return Cart
      *

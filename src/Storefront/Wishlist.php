@@ -38,7 +38,7 @@ final class Wishlist
      */
     public function add(int $productId): array
     {
-        return $this->transport->data('POST', '/customer/wishlist', body: ['product_id' => $productId]);
+        return $this->transport->data('POST', '/customer/wishlist', body: ['productId' => $productId]);
     }
 
     /**

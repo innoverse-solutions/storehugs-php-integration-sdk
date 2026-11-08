@@ -11,7 +11,7 @@ use StoreHugs\Integration\Webhooks;
 
 final class WebhooksTest extends TestCase
 {
-    private const BODY = '{"id":"e1","type":"order.created","data":{}}';
+    private const BODY = '{"id":"e1","type":"order.created","createdAt":"2026-11-07T10:00:00+00:00","data":{}}';
 
     private const T = 1_800_000_000;
 

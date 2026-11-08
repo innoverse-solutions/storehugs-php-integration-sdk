@@ -16,7 +16,7 @@ use StoreHugs\Integration\Schemas;
  * @phpstan-import-type CursorPageLinks from Schemas
  * @phpstan-import-type CursorPageMeta from Schemas
  *
- * @phpstan-type OrderListQuery array{limit?: int, cursor?: string, updated_since?: string, status?: string, payment_status?: string, source?: string}
+ * @phpstan-type OrderListQuery array{limit?: int, cursor?: string, updatedSince?: string, status?: string, paymentStatus?: string, source?: string}
  */
 final class Orders extends Resource
 {

@@ -16,7 +16,7 @@ use StoreHugs\Integration\Schemas;
  * @phpstan-import-type CursorPageLinks from Schemas
  * @phpstan-import-type CursorPageMeta from Schemas
  *
- * @phpstan-type CustomerListQuery array{limit?: int, cursor?: string, updated_since?: string, search?: string, email?: string}
+ * @phpstan-type CustomerListQuery array{limit?: int, cursor?: string, updatedSince?: string, search?: string, email?: string}
  */
 final class Customers extends Resource
 {
@@ -83,6 +83,6 @@ final class Customers extends Resource
      */
     public function setMembership(int $id, ?int $wholesaleMembershipId, DateTimeInterface|string|null $unmodifiedSince = null, string|false|null $idempotencyKey = null): array
     {
-        return $this->change('PUT', "{$this->path}/{$id}/membership", ['wholesale_membership_id' => $wholesaleMembershipId], $unmodifiedSince, $idempotencyKey);
+        return $this->change('PUT', "{$this->path}/{$id}/membership", ['wholesaleMembershipId' => $wholesaleMembershipId], $unmodifiedSince, $idempotencyKey);
     }
 }

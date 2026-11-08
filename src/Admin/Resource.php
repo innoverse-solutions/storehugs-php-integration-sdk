@@ -71,7 +71,7 @@ abstract class Resource
 
     /**
      * A change sent only if the record is unchanged since `$unmodifiedSince`
-     * (its `updated_at` as you read it); otherwise 409 `edit_conflict`.
+     * (its `updatedAt` as you read it); otherwise 409 `edit_conflict`.
      *
      * @param  array<array-key, mixed>  $changes
      *

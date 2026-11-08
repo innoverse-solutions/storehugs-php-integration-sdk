@@ -19,14 +19,14 @@ use StoreHugs\Integration\Schemas;
  *
  * @phpstan-type ProductQuery array{
  *     search?: string,
- *     category?: list<int>,
- *     min_price?: float|int,
- *     max_price?: float|int,
- *     in_stock?: bool,
+ *     taxonomy?: list<int>,
+ *     minPrice?: float|int,
+ *     maxPrice?: float|int,
+ *     inStock?: bool,
  *     featured?: bool,
  *     sort?: string,
  *     page?: int,
- *     per_page?: int,
+ *     perPage?: int,
  * }
  */
 final class Products
@@ -35,7 +35,7 @@ final class Products
     public function __construct(private readonly Transport $transport) {}
 
     /**
-     * One page of products. `category` takes term ids; `per_page` is up to 50.
+     * One page of products. `taxonomy` takes term ids from any classification; `perPage` is up to 50.
      *
      * @param  ProductQuery  $query
      * @return array{data: list<ProductSummary>, links: NumberedPageLinks, meta: NumberedPageMeta}

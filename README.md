@@ -30,12 +30,12 @@ $storefront = new StorefrontClient(
     shopperIp: $request->ip(),
 );
 
-$products = $storefront->products->list(['search' => 'mug', 'per_page' => 12])['data'];
+$products = $storefront->products->list(['search' => 'mug', 'perPage' => 12])['data'];
 $cart = $storefront->createCart();
-$session = $storefront->cart($cart['cart_token']);
+$session = $storefront->cart($cart['cartToken']);
 $session->addItem($products[0]['id'], 2);
-$link = $session->checkout(['return_path' => '/thanks']);
-// Redirect the shopper to $link['checkout_url'].
+$link = $session->checkout(['returnPath' => '/thanks']);
+// Redirect the shopper to $link['checkoutUrl'].
 ```
 
 **Shopper sign-in** uses OAuth with PKCE on the shop's own page:
@@ -52,13 +52,13 @@ use StoreHugs\Integration\AdminClient;
 
 $admin = new AdminClient(getenv('STOREHUGS_ADMIN_KEY'));
 
-foreach ($admin->orders->all(['updated_since' => '2026-11-01T00:00:00Z']) as $order) {
+foreach ($admin->orders->all(['updatedSince' => '2026-11-01T00:00:00Z']) as $order) {
     // Every page is fetched as you read.
 }
 
-$admin->setInventory([['sku' => 'MUG-01', 'stock_quantity' => 40]]);
+$admin->setInventory([['sku' => 'MUG-01', 'stockQuantity' => 40]]);
 $product = $admin->products->get(12);
-$admin->products->update(12, ['price' => 19.5], unmodifiedSince: $product['updated_at']);
+$admin->products->update(12, ['price' => 19.5], unmodifiedSince: $product['updatedAt']);
 // 409 edit_conflict if it changed
 ```
 

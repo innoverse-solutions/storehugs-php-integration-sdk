@@ -197,12 +197,12 @@ final class Transport
         $cursor = null;
 
         do {
-            /** @var array{data: list<mixed>, meta: array{next_cursor: string|null}} $page */
+            /** @var array{data: list<mixed>, meta: array{nextCursor: string|null}} $page */
             $page = $this->request('GET', $path, $cursor === null ? $query : [...$query, 'cursor' => $cursor]);
 
             yield from $page['data'];
 
-            $cursor = $page['meta']['next_cursor'];
+            $cursor = $page['meta']['nextCursor'];
         } while ($cursor !== null);
     }
 

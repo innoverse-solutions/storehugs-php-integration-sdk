@@ -18,7 +18,7 @@ use StoreHugs\Integration\Schemas;
  * @phpstan-import-type CursorPageLinks from Schemas
  * @phpstan-import-type CursorPageMeta from Schemas
  *
- * @phpstan-type QuotationListQuery array{limit?: int, cursor?: string, updated_since?: string, status?: string, customer_id?: int, quotation_number?: string}
+ * @phpstan-type QuotationListQuery array{limit?: int, cursor?: string, updatedSince?: string, status?: string, customerId?: int, quotationNumber?: string}
  */
 final class Quotations extends Resource
 {

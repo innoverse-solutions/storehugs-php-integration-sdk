@@ -62,11 +62,11 @@ final class AdminClientTest extends TestCase
                     return $this->request;
                 }
             },
-            FakeClient::json(['data' => [['id' => 1, 'stock_quantity' => 40]]]),
+            FakeClient::json(['data' => [['id' => 1, 'stockQuantity' => 40]]]),
         );
         $admin = new AdminClient('sa_live_x', http: $client->options());
 
-        $admin->setInventory([['sku' => 'MUG-01', 'stock_quantity' => 40]]);
+        $admin->setInventory([['sku' => 'MUG-01', 'stockQuantity' => 40]]);
 
         $this->assertCount(2, $client->requests);
         $this->assertSame($client->request(0)->getHeaderLine('Idempotency-Key'), $client->request(1)->getHeaderLine('Idempotency-Key'));
@@ -109,7 +109,7 @@ final class AdminClientTest extends TestCase
         $page = fn (array $ids, ?string $next) => FakeClient::json([
             'data' => array_map(fn (int $id) => ['id' => $id], $ids),
             'links' => [],
-            'meta' => ['next_cursor' => $next],
+            'meta' => ['nextCursor' => $next],
         ]);
         $client = new FakeClient($page([1, 2], 'abc'), $page([3], null));
         $admin = new AdminClient('sa_live_x', http: $client->options());
@@ -145,7 +145,7 @@ final class AdminClientTest extends TestCase
     {
         $client = new FakeClient(FakeClient::json([
             'data' => ['id' => 5, 'status' => 'agreed'],
-            'order' => ['id' => 9, 'order_number' => 'A-9'],
+            'order' => ['id' => 9, 'orderNumber' => 'A-9'],
         ]));
         $admin = new AdminClient('sa_live_x', http: $client->options());
 

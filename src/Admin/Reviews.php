@@ -15,7 +15,7 @@ use StoreHugs\Integration\Schemas;
  * @phpstan-import-type CursorPageLinks from Schemas
  * @phpstan-import-type CursorPageMeta from Schemas
  *
- * @phpstan-type ReviewListQuery array{limit?: int, cursor?: string, updated_since?: string, status?: string, rating?: int, product_id?: int}
+ * @phpstan-type ReviewListQuery array{limit?: int, cursor?: string, updatedSince?: string, status?: string, rating?: int, productId?: int}
  */
 final class Reviews extends Resource
 {

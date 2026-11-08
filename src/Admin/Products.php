@@ -17,7 +17,7 @@ use StoreHugs\Integration\Schemas;
  * @phpstan-import-type CursorPageLinks from Schemas
  * @phpstan-import-type CursorPageMeta from Schemas
  *
- * @phpstan-type ProductListQuery array{limit?: int, cursor?: string, updated_since?: string, search?: string, sku?: string, status?: string}
+ * @phpstan-type ProductListQuery array{limit?: int, cursor?: string, updatedSince?: string, search?: string, sku?: string, status?: string}
  */
 final class Products extends Resource
 {
@@ -75,7 +75,7 @@ final class Products extends Resource
     }
 
     /**
-     * Changes only the fields sent; images are added unless `image_mode` is `replace`.
+     * Changes only the fields sent; images are added unless `imageMode` is `replace`.
      *
      * @param  array<string, mixed>  $changes
      * @return ProductWriteResult

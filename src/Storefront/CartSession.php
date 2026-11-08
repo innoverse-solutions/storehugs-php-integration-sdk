@@ -45,7 +45,7 @@ final class CartSession
      */
     public function addItem(int $productId, int $quantity = 1, string|false|null $idempotencyKey = null): array
     {
-        return $this->send('POST', '/cart/items', ['product_id' => $productId, 'quantity' => $quantity], $idempotencyKey);
+        return $this->send('POST', '/cart/items', ['productId' => $productId, 'quantity' => $quantity], $idempotencyKey);
     }
 
     /**
