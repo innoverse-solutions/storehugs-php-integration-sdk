@@ -47,6 +47,8 @@ const RESPONSES = [
 const COMPONENT_RESPONSES = [
     'AdminProductWritten' => 'ProductWriteResult',
     'AdminQuotationActionDone' => 'QuotationActionResult',
+    'AdminTaxonomyTermWritten' => 'TaxonomyTermWriteResult',
+    'AdminVariableProductWritten' => 'VariableProductWriteResult',
 ];
 
 /** Page envelope parts, named so a page of any item can be typed. */

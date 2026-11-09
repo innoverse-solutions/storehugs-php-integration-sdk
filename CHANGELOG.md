@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Types regenerated from the current spec. `AdminProduct` gains `relatedProductIds` and `recommendedProductIds` (the product page's You May Also Like picks), which `ProductInput` also takes.
+
 ## 0.2.0 — 2026-11-08
 
 - **Breaking:** field names are camelCase everywhere: queries, request bodies, answers and webhook payloads (`perPage`, `updatedSince`, `cartToken`, `checkoutUrl`, `productId`, `updatedAt`, `meta.nextCursor`, `line1`, the envelope's `createdAt`). `all()` follows `meta.nextCursor`, and `addItem()`, `wishlist->add()` and `setMembership()` send `productId` and `wholesaleMembershipId`. The OAuth token answers keep the standard's snake_case (`access_token`, `refresh_token`, `expires_in`, `token_type`, and the app answer's `api_key`); error codes, event types and enum values are unchanged.

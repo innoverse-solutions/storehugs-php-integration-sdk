@@ -474,6 +474,8 @@ namespace StoreHugs\Integration;
  *     width: float|int|null,
  *     height: float|int|null,
  *     taxonomyTermIds: list<int>,
+ *     relatedProductIds: list<int>,
+ *     recommendedProductIds: list<int>,
  *     specTemplateId: int|null,
  *     variableProductId: int|null,
  *     thumbnail: string|null,
@@ -523,6 +525,7 @@ namespace StoreHugs\Integration;
  *     specTemplateId?: int|null,
  *     specs?: array<string, mixed>|null,
  *     relatedProductIds?: list<int>|null,
+ *     recommendedProductIds?: list<int>|null,
  *     wholesalePrices?: list<array{
  *         wholesaleMembershipId: int,
  *         price?: float|int|null,
@@ -560,6 +563,217 @@ namespace StoreHugs\Integration;
  *     wholesaleMembershipId: int|null,
  *     createdAt: string|null,
  *     updatedAt: string|null,
+ * }
+ *
+ * @phpstan-type AdminTaxonomy array{
+ *     id: int,
+ *     name: LocalizedText,
+ *     slug: string,
+ *     multipleTermsPerProduct: bool,
+ *     nested: bool,
+ *     terms: int,
+ * }
+ *
+ * @phpstan-type AdminTaxonomyTerm array{
+ *     id: int,
+ *     taxonomyId: int,
+ *     title: LocalizedText,
+ *     slug: string,
+ *     description: LocalizedText,
+ *     parentId: int|null,
+ *     sortOrder: int,
+ *     image: string|null,
+ *     createdAt: string|null,
+ *     updatedAt: string|null,
+ * }
+ *
+ * @phpstan-type TaxonomyTermInput array{
+ *     title?: string,
+ *     translations?: array<string, string|null>|null,
+ *     description?: string|null,
+ *     descriptionTranslations?: array<string, string|null>|null,
+ *     parentId?: int|null,
+ *     image?: array{
+ *         url?: string|null,
+ *         data?: string|null,
+ *     }|null,
+ * }
+ *
+ * @phpstan-type AdminVariableProduct array{
+ *     id: int,
+ *     name: string,
+ *     options: list<array{
+ *         id: int,
+ *         name: LocalizedText,
+ *     }>,
+ *     variants: list<array{
+ *         productId: int,
+ *         title: LocalizedText,
+ *         sku: string|null,
+ *         status: bool,
+ *         options: list<array{
+ *             optionId: int,
+ *             valueId: int,
+ *             value: LocalizedText,
+ *         }>,
+ *     }>,
+ *     createdAt: string|null,
+ *     updatedAt: string|null,
+ * }
+ *
+ * @phpstan-type AdminVariantOption array{
+ *     id: int,
+ *     name: LocalizedText,
+ *     displayMode: 'text'|'color'|'image',
+ *     values: list<array{
+ *         id: int,
+ *         name: LocalizedText,
+ *         color: string|null,
+ *     }>,
+ * }
+ *
+ * @phpstan-type VariantOptionInput array{
+ *     name?: string,
+ *     translations?: array<string, string|null>|null,
+ *     displayMode?: 'text'|'color'|'image',
+ * }
+ *
+ * @phpstan-type VariantValueInput array{
+ *     name?: string,
+ *     translations?: array<string, string|null>|null,
+ *     color?: string|null,
+ * }
+ *
+ * @phpstan-type VariableProductInput array{
+ *     title?: string,
+ *     translations?: array<string, string|null>|null,
+ *     shortDescription?: string|null,
+ *     shortDescriptionTranslations?: array<string, string|null>|null,
+ *     description?: string|null,
+ *     descriptionTranslations?: array<string, string|null>|null,
+ *     taxonomyTermIds?: list<int>|null,
+ *     images?: list<array{
+ *         url?: string|null,
+ *         data?: string|null,
+ *     }>|null,
+ *     imageUrls?: list<string>|null,
+ *     sku?: string|null,
+ *     partNumber?: string|null,
+ *     price?: float|int|null,
+ *     salePrice?: float|int|null,
+ *     isSaleScheduled?: bool|null,
+ *     saleStartsAt?: string|null,
+ *     saleEndsAt?: string|null,
+ *     wholesalePrice?: float|int|null,
+ *     manageStock?: bool|null,
+ *     stockQuantity?: int|null,
+ *     stockStatus?: 'in_stock'|'out_of_stock'|null,
+ *     lowStockAmount?: int|null,
+ *     unitId?: int|null,
+ *     taxClassId?: int|null,
+ *     type?: 'physical'|'digital',
+ *     digitalUrl?: string|null,
+ *     downloadLimit?: int|null,
+ *     documentUrl?: string|null,
+ *     status?: bool,
+ *     isFeatured?: bool|null,
+ *     noindex?: bool|null,
+ *     weight?: float|int|null,
+ *     length?: float|int|null,
+ *     width?: float|int|null,
+ *     height?: float|int|null,
+ *     specTemplateId?: int|null,
+ *     specs?: array<string, mixed>|null,
+ *     relatedProductIds?: list<int>|null,
+ *     recommendedProductIds?: list<int>|null,
+ *     wholesalePrices?: list<array{
+ *         wholesaleMembershipId: int,
+ *         price?: float|int|null,
+ *     }>|null,
+ *     quantityTiers?: list<array{
+ *         minQuantity: int,
+ *         price: float|int,
+ *     }>|null,
+ *     optionTranslations?: list<array{
+ *         name: string,
+ *         translations: array<string, string|null>,
+ *     }>|null,
+ *     variants?: list<VariantInput>,
+ * }
+ *
+ * @phpstan-type VariantInput array{
+ *     options: list<array{
+ *         name: string,
+ *         value: string,
+ *     }>,
+ *     sku?: string|null,
+ *     partNumber?: string|null,
+ *     price?: float|int|null,
+ *     salePrice?: float|int|null,
+ *     manageStock?: bool|null,
+ *     stockQuantity?: int|null,
+ *     stockStatus?: 'in_stock'|'out_of_stock'|null,
+ *     lowStockAmount?: int|null,
+ *     status?: bool,
+ *     images?: list<array{
+ *         url?: string|null,
+ *         data?: string|null,
+ *     }>|null,
+ *     specs?: array<string, mixed>|null,
+ *     taxonomyTermIds?: list<int>|null,
+ * }
+ *
+ * @phpstan-type AdminSpecTemplate array{
+ *     id: int,
+ *     name: LocalizedText,
+ *     description: LocalizedText,
+ *     source: 'mine'|'public',
+ *     category: string|null,
+ *     properties: int,
+ *     createdAt: string|null,
+ *     updatedAt: string|null,
+ * }
+ *
+ * @phpstan-type AdminSpecTemplateDetail array{
+ *     id: int,
+ *     name: LocalizedText,
+ *     description: LocalizedText,
+ *     source: 'mine'|'public',
+ *     category: string|null,
+ *     properties: int,
+ *     createdAt: string|null,
+ *     updatedAt: string|null,
+ *     groups: list<array{
+ *         id: int,
+ *         name: LocalizedText,
+ *         properties: list<AdminSpecProperty>,
+ *     }>,
+ *     ungroupedProperties: list<AdminSpecProperty>,
+ * }
+ *
+ * @phpstan-type AdminSpecProperty array{
+ *     id: int,
+ *     name: LocalizedText,
+ *     type: 'text'|'number'|'boolean'|'select',
+ *     unit: LocalizedText|null,
+ *     required: bool,
+ *     options: list<array{
+ *         key: string,
+ *         label: LocalizedText,
+ *     }>|null,
+ * }
+ *
+ * @phpstan-type AdminUnit array{
+ *     id: int,
+ *     name: LocalizedText,
+ *     products: int,
+ *     createdAt: string|null,
+ *     updatedAt: string|null,
+ * }
+ *
+ * @phpstan-type UnitInput array{
+ *     name?: string,
+ *     translations?: array<string, string|null>|null,
  * }
  *
  * @phpstan-type AdminCoupon array{
@@ -863,6 +1077,16 @@ namespace StoreHugs\Integration;
  *         id: int,
  *         orderNumber: string,
  *     }|null,
+ * }
+ *
+ * @phpstan-type TaxonomyTermWriteResult array{
+ *     data: AdminTaxonomyTerm,
+ *     warnings: list<string>,
+ * }
+ *
+ * @phpstan-type VariableProductWriteResult array{
+ *     data: AdminVariableProduct,
+ *     warnings: list<string>,
  * }
  *
  * @phpstan-type CursorPageLinks array{
