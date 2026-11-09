@@ -13,6 +13,7 @@ use StoreHugs\Integration\Admin\Orders;
 use StoreHugs\Integration\Admin\Products;
 use StoreHugs\Integration\Admin\Quotations;
 use StoreHugs\Integration\Admin\Reviews;
+use StoreHugs\Integration\Admin\Taxonomies;
 use StoreHugs\Integration\Admin\Units;
 use StoreHugs\Integration\Admin\WebhookEndpoints;
 use StoreHugs\Integration\Http\HttpOptions;
@@ -52,6 +53,8 @@ final class AdminClient
 
     public readonly Units $units;
 
+    public readonly Taxonomies $taxonomies;
+
     private readonly Transport $transport;
 
     /**
@@ -74,6 +77,7 @@ final class AdminClient
         $this->quotations = new Quotations($this->transport, '/quotations');
         $this->webhooks = new WebhookEndpoints($this->transport, '/webhooks');
         $this->units = new Units($this->transport, '/units');
+        $this->taxonomies = new Taxonomies($this->transport, '/taxonomies');
     }
 
     /**

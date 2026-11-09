@@ -267,4 +267,24 @@ final class AdminClientTest extends TestCase
         $this->assertSame(['translations' => ['ar' => 'لتر']], $client->body(1));
         $this->assertSame(4, $unit['id']);
     }
+
+    public function test_a_taxonomys_terms_are_reached_under_its_id(): void
+    {
+        $client = new FakeClient(
+            FakeClient::json(['data' => [['id' => 2, 'slug' => 'categories', 'terms' => 5]]]),
+            FakeClient::json(['data' => ['id' => 30, 'parentId' => null], 'warnings' => []]),
+            FakeClient::json(null, 204),
+        );
+        $admin = new AdminClient('sa_live_x', http: $client->options());
+
+        $categories = $admin->taxonomies->list()[0];
+        $terms = $admin->taxonomies->terms($categories['id']);
+        $result = $terms->update(30, ['parentId' => null, 'removeImage' => true]);
+        $terms->delete(30);
+
+        $this->assertSame('https://my.storehugs.com/api/admin/v1/taxonomies/2/terms/30', (string) $client->request(1)->getUri());
+        $this->assertSame(['parentId' => null, 'removeImage' => true], $client->body(1));
+        $this->assertSame([], $result['warnings']);
+        $this->assertSame('DELETE', $client->request(2)->getMethod());
+    }
 }
