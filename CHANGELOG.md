@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 — 2026-11-09
 
 - Types regenerated from the current spec. `AdminProduct` gains `relatedProductIds` (the product page's applicable products) and `recommendedProductIds` (its You May Also Like picks), which `ProductInput` also takes.
 - `$admin->units`: list, read, create, update and delete the units products are sold in, such as piece or kilogram (`list()` and `all()` take `search`). A unit products still use can't be deleted (422).
