@@ -300,4 +300,19 @@ final class AdminClientTest extends TestCase
         $this->assertSame(['color' => '#ff0000'], $client->body(0));
         $this->assertSame(3, $option['id']);
     }
+
+    public function test_variants_are_added_to_a_variable_product_with_their_options_as_a_list(): void
+    {
+        $client = new FakeClient(FakeClient::json(['data' => ['id' => 6, 'variants' => []], 'warnings' => []], 201));
+        $admin = new AdminClient('sa_live_x', http: $client->options());
+
+        $result = $admin->variableProducts->addVariants(6, [
+            'variants' => [['options' => [['name' => 'Size', 'value' => 'XL']], 'price' => 20]],
+        ]);
+
+        $this->assertSame('POST', $client->request(0)->getMethod());
+        $this->assertSame('https://my.storehugs.com/api/admin/v1/variable-products/6/variants', (string) $client->request(0)->getUri());
+        $this->assertSame(['variants' => [['options' => [['name' => 'Size', 'value' => 'XL']], 'price' => 20]]], $client->body(0));
+        $this->assertSame(6, $result['data']['id']);
+    }
 }
