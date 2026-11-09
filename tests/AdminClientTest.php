@@ -248,4 +248,23 @@ final class AdminClientTest extends TestCase
         $this->assertSame('DELETE', $client->request(0)->getMethod());
         $this->assertSame('https://panel.test/api/admin/v1/keys/4', (string) $client->request(0)->getUri());
     }
+
+    public function test_units_are_listed_by_search_and_changed_by_id(): void
+    {
+        $client = new FakeClient(
+            FakeClient::json(['data' => [['id' => 4]], 'links' => [], 'meta' => ['nextCursor' => null]]),
+            FakeClient::json(['data' => ['id' => 4, 'name' => ['en' => 'Litre']]]),
+        );
+        $admin = new AdminClient('sa_live_x', http: $client->options());
+
+        $admin->units->list(['search' => 'lit']);
+        $unit = $admin->units->update(4, ['translations' => ['ar' => 'لتر']], unmodifiedSince: '2026-11-08T10:00:00Z');
+
+        $this->assertSame('https://my.storehugs.com/api/admin/v1/units?search=lit', (string) $client->request(0)->getUri());
+        $this->assertSame('PATCH', $client->request(1)->getMethod());
+        $this->assertSame('https://my.storehugs.com/api/admin/v1/units/4', (string) $client->request(1)->getUri());
+        $this->assertSame('Sun, 08 Nov 2026 10:00:00 GMT', $client->request(1)->getHeaderLine('If-Unmodified-Since'));
+        $this->assertSame(['translations' => ['ar' => 'لتر']], $client->body(1));
+        $this->assertSame(4, $unit['id']);
+    }
 }

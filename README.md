@@ -62,6 +62,10 @@ $admin->products->update(12, ['price' => 19.5], unmodifiedSince: $product['updat
 // 409 edit_conflict if it changed
 ```
 
+**Catalog setup:** besides products, the client reaches what products are built from.
+
+- `$admin->units`: the units products are sold in (a product's `unitId`).
+
 **Apps** get an Admin key, not an OAuth token:
 
 1. Send the merchant to `AdminClient::authorizeAppUrl(clientId: …, redirectUri: …, scopes: […], state: …, codeChallenge: …)`.
