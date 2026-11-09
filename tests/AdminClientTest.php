@@ -287,4 +287,17 @@ final class AdminClientTest extends TestCase
         $this->assertSame([], $result['warnings']);
         $this->assertSame('DELETE', $client->request(2)->getMethod());
     }
+
+    public function test_a_variant_options_value_is_changed_under_the_option(): void
+    {
+        $client = new FakeClient(FakeClient::json(['data' => ['id' => 3, 'displayMode' => 'color', 'values' => []]]));
+        $admin = new AdminClient('sa_live_x', http: $client->options());
+
+        $option = $admin->variantOptions->updateValue(3, 11, ['color' => '#ff0000']);
+
+        $this->assertSame('PATCH', $client->request(0)->getMethod());
+        $this->assertSame('https://my.storehugs.com/api/admin/v1/variant-options/3/values/11', (string) $client->request(0)->getUri());
+        $this->assertSame(['color' => '#ff0000'], $client->body(0));
+        $this->assertSame(3, $option['id']);
+    }
 }
