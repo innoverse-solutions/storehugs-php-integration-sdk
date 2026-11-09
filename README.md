@@ -68,6 +68,7 @@ $admin->products->update(12, ['price' => 19.5], unmodifiedSince: $product['updat
 - `$admin->taxonomies`: the shop's taxonomies, and `terms($taxonomyId)` for one taxonomy's terms (a product's `taxonomyTermIds`).
 - `$admin->variantOptions`: the options variable products are sold in, such as Size, and their values. Reuse these names so the shop keeps one of each.
 - `$admin->variableProducts`: products sold in those options, created with their variants or given more.
+- `$admin->specTemplates`: the specification templates a product can use, with the properties its `specs` fill.
 
 **Apps** get an Admin key, not an OAuth token:
 

@@ -315,4 +315,20 @@ final class AdminClientTest extends TestCase
         $this->assertSame(['variants' => [['options' => [['name' => 'Size', 'value' => 'XL']], 'price' => 20]]], $client->body(0));
         $this->assertSame(6, $result['data']['id']);
     }
+
+    public function test_specification_templates_are_listed_by_source_and_read_with_their_properties(): void
+    {
+        $client = new FakeClient(
+            FakeClient::json(['data' => [], 'links' => [], 'meta' => ['nextCursor' => null]]),
+            FakeClient::json(['data' => ['id' => 9, 'groups' => [], 'ungroupedProperties' => [['id' => 1]]]]),
+        );
+        $admin = new AdminClient('sa_live_x', http: $client->options());
+
+        $admin->specTemplates->list(['source' => 'public', 'category' => 'electronics']);
+        $template = $admin->specTemplates->get(9);
+
+        $this->assertSame('https://my.storehugs.com/api/admin/v1/spec-templates?source=public&category=electronics', (string) $client->request(0)->getUri());
+        $this->assertSame('https://my.storehugs.com/api/admin/v1/spec-templates/9', (string) $client->request(1)->getUri());
+        $this->assertSame(1, $template['ungroupedProperties'][0]['id']);
+    }
 }

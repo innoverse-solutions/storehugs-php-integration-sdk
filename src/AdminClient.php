@@ -13,6 +13,7 @@ use StoreHugs\Integration\Admin\Orders;
 use StoreHugs\Integration\Admin\Products;
 use StoreHugs\Integration\Admin\Quotations;
 use StoreHugs\Integration\Admin\Reviews;
+use StoreHugs\Integration\Admin\SpecTemplates;
 use StoreHugs\Integration\Admin\Taxonomies;
 use StoreHugs\Integration\Admin\Units;
 use StoreHugs\Integration\Admin\VariableProducts;
@@ -61,6 +62,8 @@ final class AdminClient
 
     public readonly VariableProducts $variableProducts;
 
+    public readonly SpecTemplates $specTemplates;
+
     private readonly Transport $transport;
 
     /**
@@ -86,6 +89,7 @@ final class AdminClient
         $this->taxonomies = new Taxonomies($this->transport, '/taxonomies');
         $this->variantOptions = new VariantOptions($this->transport, '/variant-options');
         $this->variableProducts = new VariableProducts($this->transport, '/variable-products');
+        $this->specTemplates = new SpecTemplates($this->transport, '/spec-templates');
     }
 
     /**
