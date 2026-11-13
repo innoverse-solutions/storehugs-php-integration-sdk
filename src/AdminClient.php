@@ -6,6 +6,7 @@ namespace StoreHugs\Integration;
 
 use Psr\Http\Client\ClientExceptionInterface;
 use StoreHugs\Integration\Admin\Coupons;
+use StoreHugs\Integration\Admin\Currencies;
 use StoreHugs\Integration\Admin\Customers;
 use StoreHugs\Integration\Admin\Keys;
 use StoreHugs\Integration\Admin\Offers;
@@ -64,6 +65,8 @@ final class AdminClient
 
     public readonly SpecTemplates $specTemplates;
 
+    public readonly Currencies $currencies;
+
     private readonly Transport $transport;
 
     /**
@@ -90,6 +93,7 @@ final class AdminClient
         $this->variantOptions = new VariantOptions($this->transport, '/variant-options');
         $this->variableProducts = new VariableProducts($this->transport, '/variable-products');
         $this->specTemplates = new SpecTemplates($this->transport, '/spec-templates');
+        $this->currencies = new Currencies($this->transport, '/currencies');
     }
 
     /**

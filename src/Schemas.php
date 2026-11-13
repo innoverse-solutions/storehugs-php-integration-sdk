@@ -85,11 +85,11 @@ namespace StoreHugs\Integration;
  *
  * @phpstan-type ReviewStatus 'pending_approval'|'published'|'rejected'|'flagged'
  *
- * @phpstan-type AdminApiScope 'shop:read'|'keys:read'|'keys:write'|'products:read'|'products:write'|'inventory:write'|'orders:read'|'orders:write'|'customers:read'|'customers:write'|'marketing:read'|'marketing:write'|'reviews:read'|'reviews:write'|'quotations:read'|'quotations:write'|'webhooks:read'|'webhooks:write'
+ * @phpstan-type AdminApiScope 'shop:read'|'keys:read'|'keys:write'|'products:read'|'products:write'|'inventory:write'|'orders:read'|'orders:write'|'customers:read'|'customers:write'|'marketing:read'|'marketing:write'|'reviews:read'|'reviews:write'|'quotations:read'|'quotations:write'|'currencies:read'|'currencies:write'|'webhooks:read'|'webhooks:write'
  *
- * @phpstan-type SubscribableWebhookEvent 'order.created'|'order.status_changed'|'order.payment_status_changed'|'order.refunded'|'product.created'|'product.updated'|'product.deleted'|'product.stock_changed'|'catalog.changed'|'customer.created'|'customer.updated'|'quotation.created'|'quotation.status_changed'|'enquiry.created'|'enquiry.status_changed'
+ * @phpstan-type SubscribableWebhookEvent 'order.created'|'order.status_changed'|'order.payment_status_changed'|'order.refunded'|'product.created'|'product.updated'|'product.deleted'|'product.stock_changed'|'catalog.changed'|'customer.created'|'customer.updated'|'quotation.created'|'quotation.status_changed'|'enquiry.created'|'enquiry.status_changed'|'currency.created'|'currency.updated'|'currency.deleted'
  *
- * @phpstan-type WebhookEvent 'order.created'|'order.status_changed'|'order.payment_status_changed'|'order.refunded'|'product.created'|'product.updated'|'product.deleted'|'product.stock_changed'|'catalog.changed'|'customer.created'|'customer.updated'|'quotation.created'|'quotation.status_changed'|'enquiry.created'|'enquiry.status_changed'|'ping'
+ * @phpstan-type WebhookEvent 'order.created'|'order.status_changed'|'order.payment_status_changed'|'order.refunded'|'product.created'|'product.updated'|'product.deleted'|'product.stock_changed'|'catalog.changed'|'customer.created'|'customer.updated'|'quotation.created'|'quotation.status_changed'|'enquiry.created'|'enquiry.status_changed'|'currency.created'|'currency.updated'|'currency.deleted'|'ping'
  *
  * @phpstan-type StorefrontShop array{
  *     name: string,
@@ -98,6 +98,11 @@ namespace StoreHugs\Integration;
  *     defaultLanguage: string,
  *     languages: list<string>,
  *     currency: string,
+ *     currencies: list<array{
+ *         code: string,
+ *         exchangeRate: float|int,
+ *         isBase: bool,
+ *     }>,
  *     pricesIncludeTax: bool,
  *     paymentMethods: list<array{
  *         id: string,
@@ -769,6 +774,20 @@ namespace StoreHugs\Integration;
  *     products: int,
  *     createdAt: string|null,
  *     updatedAt: string|null,
+ * }
+ *
+ * @phpstan-type AdminCurrency array{
+ *     id: int,
+ *     code: string,
+ *     exchangeRate: float|int,
+ *     isEnabled: bool,
+ *     createdAt: string|null,
+ *     updatedAt: string|null,
+ * }
+ *
+ * @phpstan-type CurrencyInput array{
+ *     exchangeRate?: float|int,
+ *     isEnabled?: bool,
  * }
  *
  * @phpstan-type UnitInput array{

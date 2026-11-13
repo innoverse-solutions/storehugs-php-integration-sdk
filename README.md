@@ -69,6 +69,7 @@ $admin->products->update(12, ['price' => 19.5], unmodifiedSince: $product['updat
 - `$admin->variantOptions`: the options variable products are sold in, such as Size, and their values. Reuse these names so the shop keeps one of each.
 - `$admin->variableProducts`: products sold in those options, created with their variants or given more.
 - `$admin->specTemplates`: the specification templates a product can use, with the properties its `specs` fill.
+- `$admin->currencies`: the shop's other currencies and their exchange rates, by code.
 
 **Apps** get an Admin key, not an OAuth token:
 

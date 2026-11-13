@@ -331,4 +331,29 @@ final class AdminClientTest extends TestCase
         $this->assertSame('https://my.storehugs.com/api/admin/v1/spec-templates/9', (string) $client->request(1)->getUri());
         $this->assertSame(1, $template['ungroupedProperties'][0]['id']);
     }
+
+    public function test_currencies_are_read_added_changed_and_removed_by_code(): void
+    {
+        $eur = ['id' => 3, 'code' => 'EUR', 'exchangeRate' => 0.92, 'isEnabled' => true, 'createdAt' => null, 'updatedAt' => null];
+        $client = new FakeClient(
+            FakeClient::json(['data' => [$eur], 'links' => [], 'meta' => ['nextCursor' => null, 'baseCurrency' => 'USD']]),
+            FakeClient::json(['data' => $eur], 201),
+            FakeClient::json(['data' => [...$eur, 'exchangeRate' => 0.95]]),
+            FakeClient::json(null, 204),
+        );
+        $admin = new AdminClient('sa_live_x', http: $client->options());
+
+        $page = $admin->currencies->list();
+        $admin->currencies->create(['code' => 'EUR', 'exchangeRate' => 0.92]);
+        $changed = $admin->currencies->update('EUR', ['exchangeRate' => 0.95], unmodifiedSince: '2026-11-13T10:00:00Z');
+        $admin->currencies->delete('EUR');
+
+        $this->assertSame('USD', $page['meta']['baseCurrency']);
+        $this->assertSame(0.95, $changed['exchangeRate']);
+        $this->assertSame(['code' => 'EUR', 'exchangeRate' => 0.92], $client->body(1));
+        $this->assertSame('PATCH', $client->request(2)->getMethod());
+        $this->assertSame('https://my.storehugs.com/api/admin/v1/currencies/EUR', (string) $client->request(2)->getUri());
+        $this->assertSame('Fri, 13 Nov 2026 10:00:00 GMT', $client->request(2)->getHeaderLine('If-Unmodified-Since'));
+        $this->assertSame('DELETE', $client->request(3)->getMethod());
+    }
 }
