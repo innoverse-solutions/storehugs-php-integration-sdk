@@ -108,7 +108,7 @@ final class StorefrontClientTest extends TestCase
     {
         $client = new FakeClient(
             FakeClient::json(['data' => [['id' => 1, 'slug' => 'brand', 'name' => 'Brand', 'isTree' => false, 'isMultiple' => false]]]),
-            FakeClient::json(['data' => [['id' => 7, 'slug' => 'acme', 'name' => 'Acme', 'children' => []]]]),
+            FakeClient::json(['data' => [['id' => 7, 'slug' => 'acme', 'name' => 'Acme', 'image' => null, 'children' => []]]]),
         );
         $storefront = new StorefrontClient('acme.storehugs.com', 'pk_live_x', http: $client->options());
 

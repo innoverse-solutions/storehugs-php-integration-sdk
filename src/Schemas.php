@@ -198,6 +198,7 @@ namespace StoreHugs\Integration;
  *     id: int,
  *     slug: string,
  *     name: string|null,
+ *     image: string|null,
  *     children: list<array<string, mixed>>,
  * }
  *

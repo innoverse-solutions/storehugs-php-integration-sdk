@@ -4,7 +4,7 @@
 
 - `$admin->currencies`: list, read, add, update and remove the shop's other currencies and their exchange rates, by currency code (`AdminCurrency`). A page's `meta.baseCurrency` is the shop's own currency, which every rate is relative to. Needs a plan that includes multiple currencies (else 403 `plan_required`) and the new `currencies:read` and `currencies:write` scopes.
 - Webhooks: `currency.created`, `currency.updated` (with `previousExchangeRate` and `previousIsEnabled`) and `currency.deleted`, in `WebhookEvent` and `SubscribableWebhookEvent`; endpoints need `currencies:read` to take them.
-- Types regenerated from the current spec. `StorefrontShop` gains `currencies`: the base currency first, then each other one the shop offers, with its `exchangeRate`.
+- Types regenerated from the current spec. `StorefrontShop` gains `currencies`: the base currency first, then each other one the shop offers, with its `exchangeRate`. `TaxonomyTerm` gains `image`: the term's picture URL (a category or brand image), or null.
 
 ## 0.3.0 — 2026-11-09
 
